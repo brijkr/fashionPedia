@@ -3,7 +3,7 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
     
-def generate_masks(data, label):
+def generate_masks(data, imgPath, label):
     masks=[]
     images = []
     for imageId in data['ImageId']:
@@ -15,7 +15,7 @@ def generate_masks(data, label):
         rle_mask_pixels = sum(rle_pixels,[])
         h=int(data.loc[data['ImageId']==imageId,'Height'].tolist()[0])
         w=int(data.loc[data['ImageId']==imageId,'Width'].tolist()[0])
-        img=cv2.imread('./data/train/' + imageId + '.jpg')
+        img=cv2.imread(imgPath + imageId + '.jpg')
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         mask_img = np.zeros((h*w,1), dtype=np.uint8)
         mask_img[rle_mask_pixels] = label
